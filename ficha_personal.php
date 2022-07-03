@@ -1,7 +1,8 @@
  <?php
- $nombre= "Yamila Morales";
+ $nombre= "Yamila Morales+";
  $fecha= date("d/m/Y");
  $edad=28;
+ $aPeliculas= array("El conjuro","Titanic", "El gato con botas");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -38,7 +39,10 @@
                 </tr>
                 <tr>
                     <th>Peliculas favoritas:</th>
-                    <td>El conjuro <br> Titanic</td>
+                    <td> <?php echo $aPeliculas[0] ?> <br>
+                         <?php echo $aPeliculas[1] ?>  <br>
+                         <?php echo $aPeliculas[2] ?> 
+                    </td>
                 </tr>
 
             </tbody>
