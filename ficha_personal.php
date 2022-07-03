@@ -1,5 +1,5 @@
  <?php
- $nombre= "Yamila Morales+";
+ $nombre= "Yamila Morales";
  $fecha= date("d/m/Y");
  $edad=28;
  $aPeliculas= array("El conjuro","Titanic", "El gato con botas");
