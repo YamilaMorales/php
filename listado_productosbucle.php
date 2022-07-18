@@ -28,13 +28,12 @@ $aProductos[] = array(
 
 ?>
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado _de_productos</title>
+    <title>Listado_productosbucle</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 
@@ -60,39 +59,27 @@ $aProductos[] = array(
                 </tr>
             </thead>
             <tbody>
+
+            <?php
+            $contador = 0;
+            while ($contador < 3) { ?>
+
+            
                 <tr>
-                    <td> <?php echo $aProductos[0]["nombre"]; ?> </td>
-                    <td> <?php echo $aProductos[0]["marca"]; ?> </td>
-                    <td> <?php echo $aProductos[0]["modelo"]; ?> </td>
-                    <td> <?php echo $aProductos[0]["stock"] == 0 ? "No hay stock" : ($aProductos[0]["stock"] > 10 ? "Hay stock" : "Poco stock"); ?> </td>
-                    <td>$<?php echo $aProductos[0]["precio"]; ?> </td>
+                    <td> <?php echo $aProductos[$contador]["nombre"]; ?> </td>
+                    <td> <?php echo $aProductos[$contador]["marca"]; ?> </td>
+                    <td> <?php echo $aProductos[$contador]["modelo"]; ?> </td>
+                    <td> <?php echo $aProductos[$contador]["stock"] == 0 ? "No hay stock" : ($aProductos[$contador]["stock"] > 10 ? "Hay stock" : "Poco stock"); ?> </td>
+                    <td> <?php echo $aProductos[$contador]["precio"]; ?> </td>
                     <td> <button class="btn btn-primary">Comprar</button></td>
                 </tr>
-                <tr>
-                    <td> <?php echo $aProductos[1]["nombre"]; ?> </td>
-                    <td> <?php echo $aProductos[1]["marca"]; ?> </td>
-                    <td> <?php echo $aProductos[1]["modelo"]; ?> </td>
-                    <td> <?php echo $aProductos[1]["stock"] == 0 ? "No hay stock" : ($aProductos[1]["stock"] > 10 ? "Hay stock" : "Poco stock"); ?> </td>
-                    <td>$<?php echo $aProductos[1]["precio"]; ?> </td>
-                    <td> <button class="btn btn-primary">Comprar</button></td>
-                </tr>
-                <tr>
-                    <td> <?php echo $aProductos[2]["nombre"]; ?> </td>
-                    <td> <?php echo $aProductos[2]["marca"]; ?> </td>
-                    <td> <?php echo $aProductos[2]["modelo"]; ?> </td>
-                    <td> <?php echo $aProductos[2]["stock"] == 0 ? "No hay stock" : ($aProductos[2]["stock"] > 10 ? "Hay stock" : "Poco stock"); ?> </td>
-                    <td>$<?php echo $aProductos[2]["precio"]; ?> </td>
-                    <td> <button class="btn btn-primary">Comprar</button></td>
-                </tr>
-
-
-
-
+             <?php
+                $contador++;
+                }  ?>
+          
             </tbody>
-        </table>
-
-
+        </table>    
+         
     </main>
 </body>
-
 </html>
