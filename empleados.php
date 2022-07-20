@@ -3,17 +3,21 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+function CalcularNeto($bruto, ){
 
+    
+    return ($bruto - ($bruto * 0.17) );
+}
 $aEmpleados = array();
 $aEmpleados[] = array(
     "dni" => "33300123",
     "nombre" => "David Garcia ",
-    "bruto" => " 85000.30"
+    "bruto" => " $85000.30"
 );
 $aEmpleados[] = array(
     "dni" => "40874456",
     "nombre" => "Ana Del Valle",
-    "bruto" => "90000",
+    "bruto" => "$90000",
 );
 $aEmpleados[] = array(
     "dni" => "67567565",
@@ -23,7 +27,7 @@ $aEmpleados[] = array(
 $aEmpleados[] = array(
     "dni" => " 75744545",
     "nombre" => " Victoria Luz",
-    "bruto" => "70000",
+    "bruto" => "$70000",
 );
 
 ?>
@@ -63,9 +67,9 @@ $aEmpleados[] = array(
 
                 ?>
                     <tr>
-                        <td> <?php echo $aEmpleados["dni"]; ?> </td>
-                        <td> <?php echo $aEmpleados["nombre"]; ?> </td>
-                        <td> <?php echo $aEmpleados["bruto"]; ?> </td>
+                        <td> <?php echo ($aEmpleados["dni"]); ?> </td>
+                        <td> <?php echo mb_strtoupper  ($aEmpleados ["nombre"]); ?> </td>
+                        <td> <?php echo CalcularNeto ($aEmpleados ("bruto")); ?> </td>
 
 
 
