@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 
 
 
+
 $aEmpleados = array();
 $aEmpleados[] = array(
     "dni" => "33300123",
@@ -26,10 +27,11 @@ $aEmpleados[] = array(
     "nombre" => " Victoria Luz",
     "bruto" => "$70000",
 );
-
-function calcularNeto($bruto) {
-    return $bruto - ($bruto * 0.17);
+function calcularNeto($bruto) 
+{
+     return $bruto - ($bruto * 0.17);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -67,7 +69,7 @@ function calcularNeto($bruto) {
                       <tr>
                         <td> <?php echo $empleado["dni"]; ?></td>
                         <td> <?php echo mb_strtoupper ($empleado ["nombre"]); ?></td>
-                        <td> <?php echo calcularNeto($empleado["bruto"]); ?></td>
+                        <td> <?php echo number_format( calcularNeto($empleado["bruto"]),2,".",","); ?></td>
 
                       </tr>
                       <?php }  ?>
