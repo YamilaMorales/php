@@ -3,11 +3,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-function CalcularNeto($bruto, ){
 
-    
-    return ($bruto - ($bruto * 0.17) );
-}
+
 $aEmpleados = array();
 $aEmpleados[] = array(
     "dni" => "33300123",
@@ -30,6 +27,9 @@ $aEmpleados[] = array(
     "bruto" => "$70000",
 );
 
+function calcularNeto($bruto){
+    return $bruto-($bruto*0.17);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -52,37 +52,33 @@ $aEmpleados[] = array(
             </div>
 
         </div>
-        <table class="table table-hover border">
-            <thead>
-                <th> Dni</th>
-                <th>Nombre</th>
-                <th>Sueldo</th>
+        <div class="row">
+          <div class="col-12">
 
-            </thead>
-            <tbody>
-                <?php
+            <table class="table table-hover border">
+               <thead>
+                  <th> Dni</th>
+                  <th>Nombre</th>
+                  <th>Sueldo</th>
 
-                foreach ($aEmpleados as $aEmpleados) {
+                </thead>
+                <tbody>
+                    <?php  foreach ($aEmpleados as $empleado) { ?>
+                      <tr>
+                        <td> <?php echo $empleado["dni"]; ?></td>
+                        <td> <?php echo mb_strtoupper ($empleado ["nombre"]); ?></td>
+                        <td> <?php echo calcularNeto($empleado["bruto"]); ?></td>
 
+                      </tr>
+                      <?php }  ?>
 
-                ?>
-                    <tr>
-                        <td> <?php echo ($aEmpleados["dni"]); ?> </td>
-                        <td> <?php echo mb_strtoupper  ($aEmpleados ["nombre"]); ?> </td>
-                        <td> <?php echo CalcularNeto ($aEmpleados ("bruto")); ?> </td>
+                </tbody>
 
+             </table>
 
-
-                    </tr>
-                <?php
-
-                }  ?>
-
-            </tbody>
-
-        </table>
-
-
+          </div>
+        </div>
+       
     </main>
 </body>
 

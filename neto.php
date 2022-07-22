@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-function CalcularNeto($bruto, ){
+function calcularNeto($bruto){
 
     
     return ($bruto - ($bruto * 0.17) );
@@ -12,5 +12,5 @@ function CalcularNeto($bruto, ){
 
 //uso
 
-echo "El sueldo Neto es $ "  . CalcularNeto(80000);
+echo "El sueldo Neto es $ "  . calcularNeto(80000);
 ?>
