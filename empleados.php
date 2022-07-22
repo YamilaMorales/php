@@ -27,8 +27,8 @@ $aEmpleados[] = array(
     "bruto" => "$70000",
 );
 
-function calcularNeto($bruto){
-    return $bruto-($bruto*0.17);
+function calcularNeto($bruto) {
+    return $bruto - ($bruto * 0.17);
 }
 ?>
 <!DOCTYPE html>
