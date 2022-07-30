@@ -10,12 +10,12 @@ $aEmpleados = array();
 $aEmpleados[] = array(
     "dni" => "33300123",
     "nombre" => "David Garcia ",
-    "bruto" => " $85000.30"
+    "bruto" => "85000.30"
 );
 $aEmpleados[] = array(
     "dni" => "40874456",
     "nombre" => "Ana Del Valle",
-    "bruto" => "$90000",
+    "bruto" => "90000",
 );
 $aEmpleados[] = array(
     "dni" => "67567565",
@@ -25,11 +25,12 @@ $aEmpleados[] = array(
 $aEmpleados[] = array(
     "dni" => " 75744545",
     "nombre" => " Victoria Luz",
-    "bruto" => "$70000",
+    "bruto" => "70000",
 );
-function calcularNeto($bruto) 
-{
-     return $bruto - ($bruto * 0.17);
+
+function calcularNeto ($bruto) {
+
+ return $bruto - ($bruto*0.17);
 }
 
 ?>
@@ -69,18 +70,20 @@ function calcularNeto($bruto)
                       <tr>
                         <td> <?php echo $empleado["dni"]; ?></td>
                         <td> <?php echo mb_strtoupper ($empleado ["nombre"]); ?></td>
-                        <td> <?php echo number_format( calcularNeto($empleado["bruto"]),2,".",","); ?></td>
+                        <td> $<?php echo number_format( calcularNeto($empleado["bruto"]),2,".",","); ?></td>
 
                       </tr>
                       <?php }  ?>
-
                 </tbody>
-
              </table>
-
           </div>
         </div>
-       
+       <div class="row">
+        <div class="col-12">
+            <p>Cantidad de empleados activos: <?php echo count($aEmpleados);?></p>
+        </div>
+
+       </div>
     </main>
 </body>
 
