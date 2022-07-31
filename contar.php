@@ -9,8 +9,8 @@ error_reporting(E_ALL);
 function contar($aArray ){
   $contador= 0;
   foreach($aArray as $item){
-     $contador++;
-    } 
+    $contador++;
+   } 
    return $contador;  
 }
 
