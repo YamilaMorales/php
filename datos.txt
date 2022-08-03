@@ -1,0 +1,11 @@
+Datos de la variable ==> 
+\n\nDatos del array==>\n8
+5
+7
+9
+10
+\n \n Datos del array==>\n8
+5
+7
+9
+10
