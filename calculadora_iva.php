@@ -70,11 +70,10 @@ if ($_POST){ /*pregunta*/
                             <input type="number" name="txtConIva" id="txtConIva" class="form-control">
                         </div>
                     </div>
-                    <div class="pb-3">
+                    <div class="pb-3 ">
                         <button class="btn btn-primary " type="submit">CALCULAR</button>
                     </div>
                 </form>
-
             </div>
 
             <div class="col-5 p-5">

@@ -144,7 +144,7 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
                     </div>
 
                     <div class="pb-1">
-                        <label for="txtCorrep"> Correo: *</label>
+                        <label for="txtCorreo"> Correo: *</label>
                         <input class="form-control" type="email" name="txtCorreo" id="txtCorreo" required value=" <?php echo isset($aClientes[$pos]) ? $aClientes[$pos]["correo"] : ""; ?>">
                     </div>
                     <div class="pb-1">
