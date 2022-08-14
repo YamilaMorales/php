@@ -14,11 +14,11 @@ if (file_exists("archivo.txt")) {
 $id = isset($_GET["id"]) && $_GET["id"] >= 0 ? $_GET["id"] : "";
 //defino las variables que vienen del form.
 if ($_POST) {
-    $prioridad = trim($_POST["lstPrioridad"]);
-    $usuario = trim($_POST["lstUsuario"]);
-    $estado = trim($_POST["lstEstado"]);
-    $titulo = trim($_POST["txtTitulo"]);
-    $descripcion = trim($_POST["txtDescripcion"]);
+    $prioridad = $_POST["lstPrioridad"];
+    $usuario = $_POST["lstUsuario"];
+    $estado = $_POST["lstEstado"];
+    $titulo = $_POST["txtTitulo"];
+    $descripcion = $_POST["txtDescripcion"];
 
 
     if ($id >= 0){
@@ -26,7 +26,7 @@ if ($_POST) {
         //edito un array
 
         $aTareas[$id] = array(
-            "fecha" => date("d/m/Y"),
+            "fecha" => $aTareas[$id]["fecha"],
             "prioridad" => $prioridad,
             "usuario" => $usuario,
             "estado" => $estado,
@@ -99,13 +99,13 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
                 <form action="" method="POST">
 
                     <div>
-                        <label for="lstPriodidad">Prioridad</label>
+                        <label for="lstPrioridad">Prioridad</label>
                         <div>
-                            <select name="lstPrioridad" id="lstPrioridad" class="form-control">
-                                <option value="seleccionar" disabled selected>Seleccionar</option>
-                                <option value="Alta <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Alta" ? "selected" : ""; ?> ">Alta</option>
-                                <option value="Media <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Media" ? "selected" : ""; ?>">Media</option>
-                                <option value="Baja <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Baja" ? "selected" : ""; ?>">Baja</option>
+                            <select name="lstPrioridad" id="lstPrioridad" class="form-control" >
+                                <option value="" disabled selected>Seleccionar</option>
+                                <option value="Alta" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Alta" ? "selected" : ""; ?> >Alta</option>
+                                <option value="Media" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Media" ? "selected" : ""; ?>>Media</option>
+                                <option value="Baja" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Baja" ? "selected" : ""; ?>>Baja</option>
                             </select>
                         </div>
                     </div>
@@ -118,11 +118,11 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
                 <div>
                     <label for="lstUsuario">Usuario</label>
                     <div>
-                        <select name="lstUsuario" id="lstUsuario" class="form-control">
-                            <option value="seleccionar" disabled selected>Seleccionar</option>
-                            <option value=" Ana <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Ana" ? "selected" : ""; ?> ">Ana</option>
-                            <option value="Bernabe <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Bernabe" ? "selected" : ""; ?>">Bernabe</option>
-                            <option value="Daniela <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Daniela" ? "selected" : ""; ?>">Daniela</option>
+                        <select name="lstUsuario" id="lstUsuario" class="form-control" >
+                            <option value="" disabled selected>Seleccionar</option>
+                            <option value="Ana" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Ana" ? "selected" : ""; ?> >Ana</option>
+                            <option value="Bernabe" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Bernabe" ? "selected" : ""; ?>>Bernabe</option>
+                            <option value="Daniela" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Daniela" ? "selected" : ""; ?>>Daniela</option>
                         </select>
                     </div>
                 </div>
@@ -135,12 +135,12 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
                 <div>
                     <label for="lstEstado">Estado</label>
                     <div>
-                        <select name="lstEstado" id="lst" class="form-control">
-                            <option value="seleccionar" disabled selected>Seleccionar</option>
-                            <option value="Sin Asignar <?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "Sin Asignar" ? "selected" : ""; ?>">Sin asignar</option>
-                            <option value="Asignado <?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "Asignado" ? "selected" : ""; ?>">Asignado</option>
-                            <option value="En Proceso <?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "En Proceso" ? "selected" : ""; ?>">En proceso</option>
-                            <option value="Terminado<?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "Terminado" ? "selected" : ""; ?>">Terminado</option>
+                        <select name="lstEstado" id="lstEstado" class="form-control" >
+                            <option value="" disabled selected>Seleccionar</option>
+                            <option value="Sin Asignar" <?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "Sin Asignar" ? "selected" : ""; ?>>Sin asignar</option>
+                            <option value="Asignado" <?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "Asignado" ? "selected" : ""; ?>>Asignado</option>
+                            <option value="En Proceso" <?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "En Proceso" ? "selected" : ""; ?>>En proceso</option>
+                            <option value="Terminado"<?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "Terminado" ? "selected" : ""; ?>>Terminado</option>
                         </select>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
             <div class="row">
                 <div class="col-12 p-2">
                     <label for="txtTitulo">Titulo</label>
-                    <input type="text" name="txtTitulo" id="txtTitulo" class="form-control" requider value=" <?php echo isset($aTareas[$id]) ? $aTareas[$id]["titulo"] : ""; ?>">
+                    <input type="text" name="txtTitulo" id="txtTitulo" class="form-control" required value=" <?php echo isset($aTareas[$id]) ? $aTareas[$id]["titulo"] : ""; ?>">
 
                 </div>
 
@@ -157,7 +157,7 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
             <div class="row">
                 <div class="col-12 p-2">
                     <label for="txtDescripcion">Descripcion</label>
-                    <input type="text" name="txtDescripcion" id="txtDescripcion" class="form-control p-3" requider value=" <?php echo isset($aTareas[$id]) ? $aTareas[$id]["descripcion"] : ""; ?>">
+                    <input type="text" name="txtDescripcion" id="txtDescripcion" class="form-control p-3" required value=" <?php echo isset($aTareas[$id]) ? $aTareas[$id]["descripcion"] : ""; ?>">
 
                 </div>
 
@@ -165,10 +165,11 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
             <div class="text-center">
                 <button type="submit" class="btn btn-primary ">ENVIAR </button>
 
-                <button type="submit" class="btn btn-secondary ">Cancelar</button>
+                <a href="index.php" class="btn btn-secondary ">Cancelar</a>
             </div>
             </form>
         </div>
+        <?php if(count(($aTareas))):?>
         <div class="row">
             <div class="col-12 p-5">
                 <table class="table table-hover border ">
@@ -201,9 +202,16 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
                         <?php } ?>
                     </tbody>
                 </table>
-
+            
             </div>
+              <?php else :?>
+              <div class="col-6 offset-3 pt-3 text-center" >
+                <div class="aletr alert-info p-2 border-radius" role="alert">
+                    Aun no se han cargado tareas
+                </div>
 
+              </div>
+             <?php endif; ?>
         </div>
     </main>
 
