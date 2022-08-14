@@ -5,56 +5,90 @@ error_reporting(E_ALL);
 
 
 
-session_start();  //esta seteada  session? con(isset). luego con if prefunta existe la variable listadoCLientes? si existe guarda la info ahi
-if (isset($_SESSION["listadoClientes"])) {
 
-    $aClientes = $_SESSION["listadoClientes"];
+if (file_exists("archivo.txt")) { //existe el archivo? 
 
-    //sino aClientes es un array vacio.
-} 
-else {
+    //si es verdadero lo leememos y almacenamos el conyenido en jsonCLientes
+
+    $jsonClientes = file_get_contents("archivo.txt"); //con file_get_contents leo el archivo 
+
+    $aClientes = json_decode($jsonClientes, true); //convierto el json en array
+
+    //sino aClientes es un array vacio. para que no me de error el forich
+} else {
     $aClientes = array();
 }
-//preginta si es postback sea para enviar o eliminar todos
+
+$pos = isset($_GET["pos"]) && $_GET["pos"] >= 0 ? $_GET["pos"] : "";  //defino la variable pos afuera.
+
 if ($_POST) {
-    //si hace clik en bton enviar entonces guarda todos los datos.
-    if (isset($_POST["btnEnviar"])) {
+   
+
+    //asignamos en variables los datos que vienen del formulario//
+    $nombre = trim($_POST["txtNombre"]);   //trim elimina los espacios en blanco que deja el cliente
+    $dni = trim($_POST["txtDni"]);
+    $telefono = trim($_POST["txtTelefono"]);
+    $correo = trim($_POST["txtCorreo"]);
+    $nombreImagen= "" ;
+    //creamos un array que contendra el listado de clientes
+
+    if ($pos>= 0){ 
+        
+        //actualizo el array(cliente cargdo) existente
+        $aClientes[$pos] = array(
+            "nombre" => $nombre,
+            "dni" => $dni,
+            "telefono" => $telefono,
+            "correo" => $correo,
+            "imagen"=> $nombreImagen
+        );
+
+        //inserto un nuevo cliente.
+    } else {
+            
+        $nombreAleatorio = date("Ymshmsi");
+        $archivo_tmp = $_FILES["archivo"]["tmp_name"];
+        $extension = pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION);
 
 
-        //asignamos en variables los datos que vienen del formulario//
-        $nombre = $_POST["txtNombre"];
-        $dni = $_POST["txtDni"];
-        $telefono = $_POST["txtTelefono"];
-        $correo= $_POST["txtCorreo"];
 
-        //creamos un array que contendra el listado de clientes
+
+
         $aClientes[] = array(
             "nombre" => $nombre,
             "dni" => $dni,
             "telefono" => $telefono,
-            "correo"=> $correo
+            "correo" => $correo,
+            "imagen"=>$nombreImagen
         );
-
-
-        //actualiza el contenido de la variable session
-        $_SESSION["listadoClientes"] = $aClientes;
     }
-    //si hace clik en eliminar elimina y la sesion,borra los datos. vuelvo a declarar el array aClientes vacio para que se borren los datos almacenados. 
-    if (isset($_POST["btnEliminar"])) {
-        session_destroy();
-        $aClientes = array();
-    }
+
+    //convertir el array en json indico la nuena variable jsonClientes y aplico la conversion de mi array
+
+    $jsonClientes = json_encode($aClientes);
+
+    //almacenar el sting jsonClientes en el "archivo.txt" almaceno con file_put_contents en el archivotxt la varible $jsonClientes
+
+    file_put_contents("archivo.txt", $jsonClientes);
 }
 
-//pregunt si viene pos en la query string
-if(isset($_GET["pos"])){
-    //recuper el dato qe viene desde la query string via get
-    $pos= $_GET["pos"];
-    unset($aClientes[$pos]); //elimina la posicion del array indicado
-    //actualizo la variable de ssesion con el array actualizado
-    $_SESSION["listadoClientes"] = $aClientes;
-    header("Location: clientes_session.php"); //redireciono a la misma pagina para limpiarlas posiciones.
- }
+
+
+
+if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
+
+//eliminar del array aClientes la posicion a borrar unset()
+unset($aClientes[$pos]);
+
+//Convertir el array en json
+$aClientes = json_encode( $jsonClientes);
+
+
+
+//Almacenar el json en el archivo
+file_put_contents("archivo.txt", $jsonClientes);
+ header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -82,29 +116,29 @@ if(isset($_GET["pos"])){
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="  pb-1">
                         <label for="txtNombre"> Nombre: * </label>
-                        <input class="form-control" type="text" name="txtNombre" id="txtNombre" >
+                        <input class="form-control" type="text" name="txtNombre" id="txtNombre" required value=" <?php echo isset($aClientes[$pos]) ? $aClientes[$pos]["nombre"]: ""; ?>">
                     </div>
                     <div class=" pb-1">
                         <label for="txtDni"> DNI: *</label>
-                        <input class="form-control" type="text" name="txtDni" id="txtDni" >
+                        <input class="form-control" type="text" name="txtDni" id="txtDni" required value=" <?php echo isset($aClientes[$pos]) ? $aClientes[$pos]["dni"]: ""; ?>">
                     </div>
                     <div class=" pb-1">
                         <label for="txtTelefono"> Telefono: *</label>
-                        <input class="form-control" type="text" name="txtTelefono" id="txtTelefono" >
+                        <input class="form-control" type="text" name="txtTelefono" id="txtTelefono" required value=" <?php echo isset($aClientes[$pos]) ? $aClientes[$pos]["telefono"]: ""; ?>">
                     </div>
-                    
+
                     <div class="pb-1">
                         <label for="txtCorrep"> Correo: *</label>
-                        <input class="form-control" type="email" name="txtCorreo" id="txtCorreo" >
+                        <input class="form-control" type="email" name="txtCorreo" id="txtCorreo" required value=" <?php echo isset($aClientes[$pos]) ? $aClientes[$pos]["correo"]: ""; ?>">
                     </div>
                     <div class="pb-1">
                         <label for="">Archivo adjunto</label>
-                           <input type="file" name="archivo1" id="archivo1" accept=".jpg, .jpeg, .png">
-                           <small class="d-block">Archivos admitidos: .jpg, .jpeg, .png</small>
+                        <input type="file" name="archivo1" id="archivo1" accept=".jpg, .jpeg, .png">
+                        <small class="d-block">Archivos admitidos: .jpg, .jpeg, .png</small>
                     </div>
                     <div class="pb-3">
-                        <button class="btn btn-primary " type="submit" name="btnEnviar">Guardar</button>
-                       <a href="index.php"> <button class="btn btn-danger" type="submit" name="btnEliminar">NUEVO </button></a>
+                        <button class="btn btn-primary " type="submit" name="btnGuardar">Guardar</button>
+                        <a href="index.php"> <button class="btn btn-danger" type="submit" name="btnNuevo">NUEVO </button></a>
                     </div>
 
                 </form>
@@ -113,24 +147,24 @@ if(isset($_GET["pos"])){
                 <table class="table table-hover border">
                     <thead>
                         <tr>
+                            <th>Imagen:</th>
                             <th>Nombre:</th>
                             <th>DNI:</th>
-                            <th>Telefono:</th>
                             <th>Correo:</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        <?php foreach ($aClientes as $pos => $cliente) { ?> 
+
+                        <?php foreach ($aClientes as $pos => $cliente) { ?>
                             <tr>
+                                <td><?php  ?></td>
                                 <td><?php echo $cliente["nombre"]; ?></td>
                                 <td><?php echo $cliente["dni"]; ?></td>
-                                <td><?php echo $cliente["telefono"]; ?></td>
                                 <td><?php echo $cliente["correo"]; ?></td>
-                                <td><i class="bi bi-pencil-square"></i></td>
-                                <td><a href="clientes_session.php?pos=<?php echo $pos; ?>"><i class="bi bi-trash"></i></a></td>
-                              
+                                <td> <a href="index.php?pos=<?php echo $pos; ?> &do=editar"><i class="bi bi-pencil-square"></i></a></td>
+                                <td><a href="index.php?pos=<?php echo $pos; ?>&do=eliminar"><i class="bi bi-trash"></i></a></td>
+
                             </tr>
                         <?php } ?>
                     </tbody>
