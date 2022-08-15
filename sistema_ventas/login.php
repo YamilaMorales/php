@@ -3,19 +3,26 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
-if($_POST){
+session_start();
+if ($_POST) {
   $usuario = trim($_REQUEST["txtUsuario"]);
   $clave = trim($_REQUEST["txtClave"]);
 
   //Si el usuario es admin y la clave es admin123
+
+  if ($usuario == "admin" && $clave == "admin123") {
+
     //Crear una variable de session con tu nombre
-    //Redireccionar a index.php
-  //sino
-    //$msg = "Usuario o clave incorrecto";
+    // y Redireccionar a index.php
 
-
+    $_SESSION["nombre"] = "Yamila";
+    header("Location: index.php");
+  } else {
+    //sino
+    $msg = "Usuario o clave incorrecto";
+  }
 }
+
 
 
 
@@ -62,11 +69,11 @@ if($_POST){
                     <h1 class="h4 text-gray-900 mb-4">Bienvenido</h1>
                   </div>
                   <form action="" method="POST" class="user">
-				  <?php if(isset($msg)): ?>
-				  	<div class="alert alert-danger" role="alert">
-						<?php echo $msg; ?>
-					</div>
-				  <?php endif; ?>
+                    <?php if (isset($msg)) : ?>
+                      <div class="alert alert-danger" role="alert">
+                        <?php echo $msg; ?>
+                      </div>
+                    <?php endif; ?>
                     <div class="form-group">
                       <input type="text" class="form-control form-control-user" id="txtUsuario" name="txtUsuario" aria-describedby="emailHelp" placeholder="Usuario">
                     </div>
