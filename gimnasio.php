@@ -9,9 +9,12 @@ class Persona{
     protected $correo;
     protected $celular;
     
-    public function __construct()
+    public function __construct($dni, $nombre, $correo, $celular)
     {  
-        
+        $this-> dni = $dni;
+        $this-> nombre = $nombre ;
+        $this->correo = $correo ;
+        $this-> celular = $celular ;
     }
 
     public function __get($propiedad)
@@ -130,7 +133,7 @@ class Clase{
  }
 
  public function imprimirListado() {
- echo "<table class='table-bordered table-striped table-hover'>";
+ echo "<table class='table-borded table-striped table-hover'>";
  echo "<tr><th class='table-dark text-center' colspan='4'>Clase: " . $this->nombre . " </th></tr>";
  echo "<tr><th colspan='2' >Entrenador: </th><td colspan='2'>" . $this->entrenador->nombre . " </td></tr>";
  echo "<tr><th colspan='4'> Alumnos incriptos: </th></tr>";
