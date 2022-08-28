@@ -39,10 +39,7 @@ class Alumno extends Persona{
 
     public function __construct($dni, $nombre, $correo, $celular, $fechaNac)
     {
-        $this->dni = $dni;
-        $this->nombre = $nombre;
-        $this->correo = $correo;
-        $this->celular = $celular;
+     parent::__construct();  //utilizo el construc de la clase padre, para no llamar a las propiedades nuevbamente
         $this->fechaNac= $fechaNac;
         $this-> peso = 0.0;
         $this->altura = 0.0;
@@ -73,10 +70,7 @@ class Entrenador extends Persona{
     public function __construct( $dni, $nombre, $correo, $celular)
 
     {
-     $this->dni = $dni;
-     $this->nombre = $nombre;
-     $this->correo = $correo;
-     $this->celular = $celular;
+     parent::__construct();
      $this-> aClases = array();    
     }
 
