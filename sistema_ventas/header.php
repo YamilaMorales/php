@@ -1,5 +1,9 @@
 <?php
-session_start(); //siemore que uso session iniciarla antes.
+ 
+//pregunto esta seteada la sesion nombre, en negacion, si no esta la session nombre entonces redirecciono a login.
+if(!isset($_SESSION["nombre"])){
+  header("Location: login.php");
+}
 
 //pregunto, esta seteada la sesion que cree en el login. 
   if (isset($_POST["btnCerrar"])) {  //si la persona hace clik en boton cerrar sesion
@@ -52,8 +56,7 @@ session_start(); //siemore que uso session iniciarla antes.
   <link href="css/bootstrap-select.min.css" rel="stylesheet" type="text/css">
   <script type="text/javascript" src="js/bootstrap-select.min.js"></script>
   <link href="css/estilos.css" rel="stylesheet" type="text/css">
-  <script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
-
+  <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
 </head>
 
 <body id="page-top">
