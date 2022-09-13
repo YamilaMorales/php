@@ -30,7 +30,14 @@ use Producto as GlobalProducto;
          return $this;
      }
     
-    
+     public function cargarFormulario($request){
+        $this->idproducto = isset($request["id"])? $request["id"] : "";
+        $this->nombre = isset($request["txtNombre"])? $request["txtNombre"] : "";
+        $this->fk_idtipoproducto = isset($request["lstTipoProducto"])? $request["lstTipoProducto"] : "";
+        $this->cantidad = isset($request["txtCantidad"])? $request["txtCantidad"]: 0;
+        $this->precio = isset($request["txtPrecio"])? $request["txtPrecio"]: 0;
+        $this->descripcion = isset($request["txtDescripcion"])? $request["txtDescripcion"] : "";
+    }
     public function insertar()
     {
         //Instancia la clase mysqli con el constructor parametrizado
