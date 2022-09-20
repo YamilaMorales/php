@@ -1,6 +1,5 @@
 <?php
 
-use Producto as GlobalProducto;
 
  class Producto
  {
@@ -16,7 +15,8 @@ use Producto as GlobalProducto;
  
      public function __construct()
      {
- 
+        $this->cantidad =0 ;
+        $this->precio =0.0 ;
      }
  
      public function __get($atributo)
@@ -146,7 +146,7 @@ use Producto as GlobalProducto;
                     imagen,
                     fk_idtipoproducto
              FROM productos
-             WHERE idproducto = $this->idproducto";
+             WHERE idproducto =" .  $this->idproducto;
      if (!$resultado = $mysqli->query($sql)) {
          printf("Error en query: %s\n", $mysqli->error . " " . $sql);
      }
@@ -164,9 +164,10 @@ use Producto as GlobalProducto;
             $entidadAux->descripcion = $fila["descripcion"];
             $entidadAux->imagen = $fila["imagen"];
             $entidadAux->fk_idtipoproducto = $fila["fk_idtipoproducto"];
-            
+            $aResultado[] = $entidadAux;
         }
     }
+    $mysqli -> close ();
     return $aResultado;
 }
 }

@@ -1,6 +1,73 @@
 <?php
 
 include_once "config.php";
+include_once "entidades/producto.php";
+include_once "entidades/tipoproducto.php";
+
+$pg = "Edición de producto";
+
+$producto = new Producto ();
+$producto ->cargarFormulario ($_REQUEST);
+
+if( $_POST ) {
+    if (isset( $_POST [" btnGuardar "])) {
+        $nombreImagen = "";
+        //Almacenamos la imagen en el servidor
+        if ( $_FILES [" imagen "][" error "] === UPLOAD_ERR_OK ) {
+            $nombreAleatorio =date("Ymdhmsi");
+            $archivoTmp = $_ARCHIVOS ["imagen"]["tmp_name"];
+            $nombreArchivo = $_ARCHIVOS ["imagen"]["nombre"];
+            $extensión =pathinfo( $nombreArchivo , PATHINFO_EXTENSION );
+            $nombreImagen =" $nombreRandom . $extensión ";
+            move_uploaded_file( $archivoTmp , "files/$nombreImagen ");
+        }
+
+        if (isset( $_GET [" id "]) && $_GET [" id "] > 0 ) {
+            $productoAnt = new  Producto ();
+            $productoAnt -> idproducto = $_GET [" id "];
+            $productoAnt -> obtenerPorId ();
+            $imagenAnterior = $productoAnt->imagen ;
+
+            //Si es una actualizacion y se sube una imagen, elimina la anterior
+            if ( $_FILES [" imagen "][" error "] === UPLOAD_ERR_OK ) {
+                if (! $imagenAnterior != "") {
+                    if (archivo_existe("archivos/ $imagenAnterior"))
+                        unlink("archivos/ $imagenAnterior");
+                }
+            } else {
+                //Si no viene ninguna imagen, setea como imagen la que habia previamente
+                $nombreImagen = $imagenAnterior ;
+            }
+
+            $producto->imagen = $nombreImagen ;
+            //Actualizo un cliente existente
+            $producto->actualizar ();
+            $msg ["texto"] = "Actualizado correctamente ";
+            $msj ["codigo"] = "alert-succes";
+        } else {
+            //Es nuevo
+            $producto->imagen = $nombreImagen;
+            $producto->insertar ();
+            $msg["texto"] = " Insertado correctamente ";
+            $msj["codigo"] = " alert-succes";
+        }
+    } else  if (isset ( $_POST ["btnBorrar"])) {
+     
+        $producto->eliminar ();
+        header("Location: producto-listado.php");
+    }
+}
+if (isset( $_GET ["id"]) && $_GET ["id"] > 0 ) {
+    
+    $producto -> obtenerPorId ();
+
+}
+
+$tipoProducto = new  Tipoproducto ();
+$aTipoProductos = $tipoProducto->obtenerTodos();
+
+
+
 include_once "header.php";
 ?>
 
@@ -11,7 +78,7 @@ include_once "header.php";
           <h1 class="h3 mb-4 text-gray-800">Productos</h1>
            <div class="row">
                 <div class="col-12 mb-3">
-                    <a href="productos.php" class="btn btn-primary mr-2">Listado</a>
+                    <a href="producto-listado.php" class="btn btn-primary mr-2">Listado</a>
                     <a href="producto-formulario.php" class="btn btn-primary mr-2">Nuevo</a>
                     <button type="submit" class="btn btn-success mr-2" id="btnGuardar" name="btnGuardar">Guardar</button>
                     <button type="submit" class="btn btn-danger" id="btnBorrar" name="btnBorrar">Borrar</button>
@@ -20,26 +87,34 @@ include_once "header.php";
             <div class="row">
                 <div class="col-6 form-group">
                     <label for="txtNombre">Nombre:</label>
-                    <input type="text" required="" class="form-control" name="txtNombre" id="txtNombre" value="">
+                    <input type="text" required="" class="form-control" name="txtNombre" id="txtNombre" value="<?php echo $producto->nombre;?>">
                 </div>
                 <div class="col-6 form-group">
                     <label for="txtNombre">Tipo de producto:</label>
                     <select name="lstTipoProducto" id="lstTipoProducto" class="form-control selectpicker" data-live-search="true" required>
-                        <option value="" disabled selected>Seleccionar</option>
+                    
+                    <option value="" disabled selected>Seleccionar</option>
+                    <?php  foreach ($aTipoProductos  as  $tipoProducto): ?>
+                            <?php  if ($producto->fk_idtipoproducto == $tipoProducto->idtipoproducto): ?>
+                                <option  value="<?php echo $tipoProducto->idtipoproducto; ?>"> <?php echo $tipoProducto->nombre; ?> </option>    
+                            <?php  else : ?>
+                                <option  value =" <?php echo $tipoProducto->idtipoproducto; ?>" > <?php echo $tipoProducto->nombre; ?> </option>
+                            <?php  endif ; ?>
+                        <?php  endforeach ; ?>  
                     </select>
                 </div>
 
                 <div class="col-6 form-group">
                     <label for="txtCantidad">Cantidad:</label>
-                    <input type="number" required="" class="form-control" name="txtCantidad" id="txtCantidad" value="">
+                    <input type="number" required="" class="form-control" name="txtCantidad" id="txtCantidad" value="<?php echo $producto->cantidad;?>">
                 </div>
                 <div class="col-6 form-group">
                     <label for="txtPrecio">Precio:</label>
-                    <input type="text" class="form-control" name="txtPrecio" id="txtPrecio" value="">
+                    <input type="text" class="form-control" name="txtPrecio" id="txtPrecio" value="<?php echo $producto->precio;?>">
                 </div>
                 <div class="col-12 form-group">
                     <label for="txtCorreo">Descripción:</label>
-                    <textarea type="text" name="txtDescripcion" id="txtDescripcion"></textarea>
+                    <textarea type="text" name="txtDescripcion" id="txtDescripcion"><?php echo $producto->descripcion;?></textarea>
                 </div>
                 <div class="col-6 form-group">
                     <label for="fileImagen">Imagen:</label>
