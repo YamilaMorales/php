@@ -22,14 +22,14 @@ if( $_POST ) {
             move_uploaded_file( $archivoTmp , "files/$nombreImagen ");
         }
 
-        if (isset( $_GET [" id "]) && $_GET [" id "] > 0 ) {
+        if (isset( $_GET ["id"]) && $_GET ["id"] > 0 ) {
             $productoAnt = new  Producto ();
-            $productoAnt -> idproducto = $_GET [" id "];
+            $productoAnt -> idproducto = $_GET ["id"];
             $productoAnt -> obtenerPorId ();
             $imagenAnterior = $productoAnt->imagen ;
 
             //Si es una actualizacion y se sube una imagen, elimina la anterior
-            if ( $_FILES [" imagen "][" error "] === UPLOAD_ERR_OK ) {
+            if ( $_FILES ["imagen"]["error"] === UPLOAD_ERR_OK ) {
                 if (! $imagenAnterior != "") {
                     if (file_exists("archivos/$imagenAnterior"))
                         unlink("archivos/$imagenAnterior");
