@@ -146,7 +146,7 @@
                     imagen,
                     fk_idtipoproducto
              FROM productos
-             WHERE idproducto =" .  $this->idproducto;
+             WHERE idproducto " .  $this->idproducto;
      if (!$resultado = $mysqli->query($sql)) {
          printf("Error en query: %s\n", $mysqli->error . " " . $sql);
      }

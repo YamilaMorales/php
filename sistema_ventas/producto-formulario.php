@@ -31,8 +31,8 @@ if( $_POST ) {
             //Si es una actualizacion y se sube una imagen, elimina la anterior
             if ( $_FILES [" imagen "][" error "] === UPLOAD_ERR_OK ) {
                 if (! $imagenAnterior != "") {
-                    if (archivo_existe("archivos/ $imagenAnterior"))
-                        unlink("archivos/ $imagenAnterior");
+                    if (file_exists("archivos/$imagenAnterior"))
+                        unlink("archivos/$imagenAnterior");
                 }
             } else {
                 //Si no viene ninguna imagen, setea como imagen la que habia previamente
@@ -48,8 +48,8 @@ if( $_POST ) {
             //Es nuevo
             $producto->imagen = $nombreImagen;
             $producto->insertar ();
-            $msg["texto"] = " Insertado correctamente ";
-            $msj["codigo"] = " alert-succes";
+            $msg["texto"] = "Insertado correctamente";
+            $msj["codigo"] = "alert-succes";
         }
     } else  if (isset ( $_POST ["btnBorrar"])) {
      
@@ -119,7 +119,9 @@ include_once "header.php";
                 <div class="col-6 form-group">
                     <label for="fileImagen">Imagen:</label>
                     <input type="file" class="form-control-file" name="imagen" id="imagen">
-                    <img src="files/" class="img-thumbnail">
+                     <?php if($producto->imagen != "") : ?>
+                    <img src="files/<?php echo $producto->imagen; ?>" class="img-thumbnail">
+                    <?php endif; ?>
                 </div>
             </div>
 
