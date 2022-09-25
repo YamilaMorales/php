@@ -53,11 +53,11 @@
                    
                 ) VALUES (
                     '$this->nombre',
-                    $this->cantidad,
-                    $this->precio,
+                     $this->cantidad,
+                     $this->precio,
                     '$this->descripcion',
                     '$this->imagen',
-                    $this->fk_idtipoproducto,
+                     $this->fk_idtipoproducto
                     
                     
                 );";
@@ -83,7 +83,7 @@
              precio = $this->precio,
              descripcion = '$this->descripcion',
              imagen =  '$this->imagen',
-             fk_idprovincia =  '$this->fk_idtipoproducto'
+             fk_idtipoproducto =  $this->fk_idtipoproducto
              
             
              WHERE idproducto = $this->idproducto";

@@ -48,7 +48,7 @@ class TipoProducto {
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "UPDATE tipo_productos SET
                 nombre = '$this->nombre'
-                WHERE idtipoproducto= " . $this->idtipoproducto;
+                WHERE idtipoproducto = " . $this->idtipoproducto;
           
         if (!$mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);

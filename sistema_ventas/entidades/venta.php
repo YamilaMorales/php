@@ -10,11 +10,14 @@ class Venta
     private $preciounitario;
     private $total;
    
-    
+    private $nombre_cliente;
+    private $nombre_producto;
 
     public function __construct()
     {
-
+        $this->cantidad = 0;
+        $this->preciounitario = 0.0;
+        $this->total = 0.0;
     }
 
     public function __get($atributo)
@@ -28,16 +31,18 @@ class Venta
         return $this;
     }
 
-    public  function  cargarFormulario ($solicitud){
-        $this->idventa = isset($peticion["id"])?$solicitud ["id"]:"";
-        $this->fk_idcliente = isset ($solicitud["lstCliente"])?$solicitud["lstCliente"]:"";
-        $this->fk_idproducto = isset ($solicitud[" lstProducto "])?$solicitud["lstProducto"]:"";
-        if (isset( $solicitud["txtAnio"]) && isset($solicitud["txtMes"]) && isset($solicitud["txtDia"])){
-            $this -> fecha = $solicitud["txtAnio"] . " - " .  $solicitud["txtMes"] . " - " .  $solicitud ["txtDia"] . " " . $solicitud ["txtHora"];
+    
+    public function cargarFormulario($request)
+    {
+        $this->idventa = isset($request["id"]) ? $request["id"] : "";
+        $this->fk_idcliente = isset($request["lstCliente"]) ? $request["lstCliente"] : "";
+        $this->fk_idproducto = isset($request["lstProducto"]) ? $request["lstProducto"] : "";
+        if (isset($request["txtAnio"]) && isset($request["txtMes"]) && isset($request["txtDia"])) {
+            $this->fecha = $request["txtAnio"] . "-" . $request["txtMes"] . "-" . $request["txtDia"] . " " . $request["txtHora"];
         }
-        $this-> cantidad = isset($solicitud ["txtCantidad"])? $solicitud["txtCantidad"]: 0 ;
-        $this-> preciounitario = isset($solicitud [" txtPrecioUni "])? $peticion[" txtPrecioUni"]: 0.0 ;
-        $this-> total = isset($solicitud [" txtTotal "])? $solicitud[" txtTotal "]: 0.0 ;
+        $this->cantidad = isset($request["txtCantidad"]) ? $request["txtCantidad"] : 0;
+        $this->preciounitario = isset($request["txtPrecioUni"]) ? $request["txtPrecioUni"] : 0.0;
+        $this->total = isset($request["txtTotal"]) ? $request["txtTotal"] : 0.0;
     }
 
 
@@ -53,18 +58,15 @@ class Venta
                     cantidad,
                     preciounitario,
                     total
-                    
-                   
+                
                     
                 ) VALUES (
                     $this->fk_idcliente,
                     $this->fk_idproducto,
                     '$this->fecha',
-                    $this->cantidad
+                    $this->cantidad,
                     $this->preciounitario,
-                    $this->total,
-                    
-                
+                    $this->total               
                 );";
         // print_r($sql);exit;
         //Ejecuta la query
@@ -87,7 +89,7 @@ class Venta
                     fecha = '$this->fecha',
                     cantidad = $this->cantidad,
                     preciounitario = $this->preciounitario,
-                    total = $this->total,
+                    total = $this->total
                     
                 WHERE idcventa = $this->idventa";
 

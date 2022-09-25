@@ -88,8 +88,8 @@ class Cliente
                 telefono = '$this->telefono',
                 correo = '$this->correo',
                 fecha_nac =  '$this->fecha_nac',
-                fk_idprovincia =  '$this->fk_idprovincia',
-                fk_idlocalidad =  '$this->fk_idlocalidad',
+                fk_idprovincia =  $this->fk_idprovincia,
+                fk_idlocalidad =  $this->fk_idlocalidad,
                 domicilio =  '$this->domicilio'
                 WHERE idcliente = $this->idcliente";
 
@@ -150,16 +150,15 @@ class Cliente
 
      public function obtenerTodos(){
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "SELECT 
-                    idcliente,
-                    nombre,
-                    cuit,
-                    telefono,
-                    correo,
-                    fecha_nac,
-                    fk_idprovincia,
-                    fk_idlocalidad,
-                    domicilio
+        $sql = "SELECT idcliente,
+                       nombre,
+                       cuit,
+                       telefono,
+                      correo,
+                      fecha_nac,
+                      fk_idprovincia,
+                      fk_idlocalidad,
+                      domicilio
                 FROM clientes";
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
