@@ -3,22 +3,21 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-session_start();
-if ($_POST) {
-  $usuario = trim($_REQUEST["txtUsuario"]);
+include_once "config.php";
+include_once "entidades/usuario.php";
+
+if($_POST){
+  $nombreUsuario = trim($_REQUEST["txtUsuario"]);
   $clave = trim($_REQUEST["txtClave"]);
 
   //Si el usuario es admin y la clave es admin123
+  $entidadUsuario = new Usuario();
+  $entidadUsuario->obtenerPorUsuario($nombreUsuario);
 
-  if ($usuario == "admin" && $clave == "admin123") {
-
-    //Crear una variable de session con tu nombre
-    // y Redireccionar a index.php
-
-    $_SESSION["nombre"] = "Yamila";
+  if($entidadUsuario->usuario == $nombreUsuario && password_verify($clave, $entidadUsuario->clave)){
+    $_SESSION["nombre"] = $entidadUsuario->nombre . " " . $entidadUsuario->apellido;
     header("Location: index.php");
   } else {
-    //sino
     $msg = "Usuario o clave incorrecto";
   }
 }

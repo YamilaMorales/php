@@ -6,9 +6,9 @@ if(!isset($_SESSION["nombre"])){
 }
 
 //pregunto, esta seteada la sesion que cree en el login. 
+if($_POST){
   if (isset($_POST["btnCerrar"])) {  //si la persona hace clik en boton cerrar sesion
     if (isset($_SESSION["nombre"])) { //cierro sesion con destroy y redirecciono a loguin.
-      if ($_POST) {
       session_destroy();
       header("Location: login.php");
     }

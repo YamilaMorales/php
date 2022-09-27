@@ -9,7 +9,7 @@ class Venta
     private $cantidad;
     private $preciounitario;
     private $total;
-   
+
     private $nombre_cliente;
     private $nombre_producto;
 
@@ -31,7 +31,6 @@ class Venta
         return $this;
     }
 
-    
     public function cargarFormulario($request)
     {
         $this->idventa = isset($request["id"]) ? $request["id"] : "";
@@ -45,7 +44,6 @@ class Venta
         $this->total = isset($request["txtTotal"]) ? $request["txtTotal"] : 0.0;
     }
 
-
     public function insertar()
     {
         //Instancia la clase mysqli con el constructor parametrizado
@@ -58,17 +56,15 @@ class Venta
                     cantidad,
                     preciounitario,
                     total
-                
-                    
                 ) VALUES (
                     $this->fk_idcliente,
                     $this->fk_idproducto,
                     '$this->fecha',
                     $this->cantidad,
                     $this->preciounitario,
-                    $this->total               
+                    $this->total
                 );";
-        // print_r($sql);exit;
+
         //Ejecuta la query
         if (!$mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
@@ -84,14 +80,13 @@ class Venta
 
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "UPDATE ventas SET
-                   fk_idcliente = $this->fk_idcliente,
+                    fk_idcliente = $this->fk_idcliente,
                     fk_idproducto = $this->fk_idproducto,
                     fecha = '$this->fecha',
                     cantidad = $this->cantidad,
                     preciounitario = $this->preciounitario,
                     total = $this->total
-                    
-                WHERE idcventa = $this->idventa";
+                WHERE idventa = $this->idventa";
 
         if (!$mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
@@ -113,79 +108,168 @@ class Venta
     public function obtenerPorId()
     {
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "SELECT idventa,
-                    fk_idcliente,
-                    fk_idproducto,
-                    fecha,
-                    cantidad,
-                    preciounitario,
-                    total
-                    
+        $sql = "SELECT  idventa,
+                        fk_idcliente,
+                        fk_idproducto,
+                        fecha,
+                        cantidad,
+                        preciounitario,
+                        total
                 FROM ventas
-                WHERE idventa = $this->idventa";
+                WHERE idventa = " . $this->idventa;
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }
 
         //Convierte el resultado en un array asociativo
         if ($fila = $resultado->fetch_assoc()) {
+            $this->idventa = $fila["idventa"];
             $this->fk_idcliente = $fila["fk_idcliente"];
             $this->fk_idproducto = $fila["fk_idproducto"];
-        
-            if(isset($fila["fecha"])){
-                $this->fecha = $fila["fecha"];
-            } else {
-                $this->fecha = "";
-            }
-            $this->idventa = $fila["idventa"];
+            $this->fecha = $fila["fecha"];
             $this->cantidad = $fila["cantidad"];
             $this->preciounitario = $fila["preciounitario"];
-            $this->total= $fila["total"];
-           
-            
+            $this->total = $fila["total"];
         }
         $mysqli->close();
 
     }
 
-     public function obtenerTodos(){
+    public function obtenerVentasPorCliente($idCliente)
+    {
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "SELECT
-                    idventa, 
-                    fk_idcliente,
-                    fk_idproducto,
-                    fecha,
-                    cantidad,
-                    preciounitario,
-                    total
-                    
+        $sql = "SELECT idventa,
+                        fk_idcliente,
+                        fk_idproducto,
+                        fecha,
+                        cantidad,
+                        preciounitario,
+                        total
+                FROM ventas WHERE fk_idcliente = $idCliente";
+        if (!$resultado = $mysqli->query($sql)) {
+            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+        }
+
+        $aResultado = array();
+        if ($resultado) {
+            //Convierte el resultado en un array asociativo
+            while ($fila = $resultado->fetch_assoc()) {
+                $entidadAux = new Venta();
+                $entidadAux->idventa = $fila["idventa"];
+                $entidadAux->fk_idcliente = $fila["fk_idcliente"];
+                $entidadAux->fk_idproducto = $fila["fk_idproducto"];
+                $entidadAux->fecha = $fila["fecha"];
+                $entidadAux->cantidad = $fila["cantidad"];
+                $entidadAux->preciounitario = $fila["preciounitario"];
+                $entidadAux->total = $fila["total"];
+                $aResultado[] = $entidadAux;
+            }
+        }
+        $mysqli->close();
+        return $aResultado;
+
+    }
+
+    public function obtenerTodos()
+    {
+        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $sql = "SELECT idventa,
+                        fk_idcliente,
+                        fk_idproducto,
+                        fecha,
+                        cantidad,
+                        preciounitario,
+                        total
                 FROM ventas";
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }
 
         $aResultado = array();
-        if($resultado){
+        if ($resultado) {
             //Convierte el resultado en un array asociativo
-
-            while($fila = $resultado->fetch_assoc()){
+            while ($fila = $resultado->fetch_assoc()) {
                 $entidadAux = new Venta();
+                $entidadAux->idventa = $fila["idventa"];
                 $entidadAux->fk_idcliente = $fila["fk_idcliente"];
                 $entidadAux->fk_idproducto = $fila["fk_idproducto"];
-        
-            if(isset($fila["fecha"])){
                 $entidadAux->fecha = $fila["fecha"];
-            } else {
-                $entidadAux->fecha = "";
-            }
-            $entidadAux->idventa = $fila["idventa"];
-            $entidadAux->cantidad = $fila["cantidad"];
-            $entidadAux->preciounitario = $fila["preciounitario"];
-            $entidadAux->total= $fila["total"];
+                $entidadAux->cantidad = $fila["cantidad"];
+                $entidadAux->preciounitario = $fila["preciounitario"];
+                $entidadAux->total = $fila["total"];
                 $aResultado[] = $entidadAux;
             }
         }
+        $mysqli->close();
         return $aResultado;
+    }
+
+    public function cargarGrilla()
+    {
+        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+
+        $sql = "SELECT
+                A.idventa,
+                A.fecha,
+                A.cantidad,
+                A.fk_idcliente,
+                B.nombre AS nombre_cliente,
+                A.fk_idproducto,
+                A.total,
+                A.preciounitario,
+                C.nombre AS nombre_producto
+            FROM ventas A
+            INNER JOIN clientes B ON A.fk_idcliente = B.idcliente
+            INNER JOIN productos C ON A.fk_idproducto = C.idproducto
+            ORDER BY A.fecha DESC";
+
+        if (!$resultado = $mysqli->query($sql)) {
+            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+        }
+
+        $aResultado = array();
+        if ($resultado) {
+            //Convierte el resultado en un array asociativo
+            while ($fila = $resultado->fetch_assoc()) {
+                $entidadAux = new Venta();
+                $entidadAux->idventa = $fila["idventa"];
+                $entidadAux->fk_idcliente = $fila["fk_idcliente"];
+                $entidadAux->fk_idproducto = $fila["fk_idproducto"];
+                $entidadAux->fecha = $fila["fecha"];
+                $entidadAux->cantidad = $fila["cantidad"];
+                $entidadAux->preciounitario = $fila["preciounitario"];
+                $entidadAux->nombre_cliente = $fila["nombre_cliente"];
+                $entidadAux->nombre_producto = $fila["nombre_producto"];
+                $entidadAux->total = $fila["total"];
+                $aResultado[] = $entidadAux;
+            }
+        }
+        $mysqli->close();
+        return $aResultado;
+    }
+
+    public function obtenerFacturacionMensual($mes)
+    {
+        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, 3310);
+        $sql = "SELECT SUM(total) AS total FROM ventas WHERE MONTH(fecha) = $mes";
+        if (!$resultado = $mysqli->query($sql)) {
+            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+        }
+        $fila = $resultado->fetch_assoc();
+        $mysqli->close();
+        return $fila["total"] != "" ? $fila["total"] : 0;
+    }
+
+    public function obtenerFacturacionAnual($anio)
+    {
+        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $sql = "SELECT SUM(total) AS total FROM ventas WHERE YEAR(fecha) = $anio";
+        if (!$resultado = $mysqli->query($sql)) {
+            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+        }
+        $fila = $resultado->fetch_assoc();
+        $mysqli->close();
+        return $fila["total"] != "" ? $fila["total"] : 0;
     }
 
 }

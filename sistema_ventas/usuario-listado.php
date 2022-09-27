@@ -7,7 +7,7 @@ $pg = "Listado de usuarios";
 $entidadUsuario = new  Usuario ();
 $aUsuarios = $entidadUsuario->obtenerTodos ();
 
-include_once " header.php ";
+include_once "header.php";
 ?>
 
         <!-- Contenido de la página inicial -->
@@ -19,7 +19,7 @@ include_once " header.php ";
                     <a  href="usuario-formulario.php" class="btn btn-primary mr-2 ">Nuevo</a>
                 </div>
             </div>
-          <table class=" table table-hover border " >
+          <table class="table table-hover border" >
             <tr>
                 <th>Usuario</th>
                 <th>Nombre</th>
@@ -44,4 +44,4 @@ include_once " header.php ";
 
       </div>
       <!-- Fin del contenido principal -->
-<?php  include_once " pie de página.php "; ?>
+<?php  include_once "footer.php"; ?>

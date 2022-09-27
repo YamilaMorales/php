@@ -2,6 +2,7 @@
 
 include_once "config.php";
 include_once "entidades/tipoproducto.php";
+include_once "entidades/producto.php";
 
 $tipoProducto = new TipoProducto();
 
@@ -38,7 +39,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0) {
     $tipoProducto->cargarFormulario($_REQUEST);
     $tipoProducto->obtenerPorId();
 }
-
+}
 include_once "header.php";
 ?>
 <!-- Begin Page Content -->
@@ -74,8 +75,4 @@ include_once "header.php";
 
 </div>
 <!-- End of Main Content -->
-<script>
-
-
-</script>
 <?php include_once "footer.php"; ?>

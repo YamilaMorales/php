@@ -105,6 +105,41 @@
      $mysqli->close();
  }
 
+ public function obtenerPorTipo($idTipoProducto)
+ {
+     $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+     $sql = "SELECT idproducto,
+                             nombre,
+                             fk_idtipoproducto,
+                             cantidad,
+                             precio,
+                             descripcion,
+                             imagen
+                     FROM productos
+                     WHERE fk_idtipoproducto = " . $idTipoProducto;
+     if (!$resultado = $mysqli->query($sql)) {
+         printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+     }
+
+     $aResultado = array();
+     if ($resultado) {
+         //Convierte el resultado en un array asociativo
+         while ($fila = $resultado->fetch_assoc()) {
+             $entidadAux = new Producto();
+             $entidadAux->idproducto = $fila["idproducto"];
+             $entidadAux->nombre = $fila["nombre"];
+             $entidadAux->fk_idtipoproducto = $fila["fk_idtipoproducto"];
+             $entidadAux->cantidad = $fila["cantidad"];
+             $entidadAux->precio = $fila["precio"];
+             $entidadAux->descripcion = $fila["descripcion"];
+             $entidadAux->imagen = $fila["imagen"];
+             $aResultado[] = $entidadAux;
+         }
+     }
+     $mysqli->close();
+     return $aResultado;
+
+ }
  
  public function obtenerPorId()
  {

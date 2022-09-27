@@ -1,21 +1,22 @@
 <?php
 include_once "config.php";
 include_once "entidades/cliente.php";
-include_once "entidades/venta.php";
 include_once "entidades/producto.php";
+include_once "entidades/venta.php";
 
 $venta = new Venta();
 
 if($_POST) {
     if(isset($_POST["btnGuardar"])){
         $venta->cargarFormulario($_REQUEST);
+
     if(isset($_GET["id"]) && $_GET["id"] > 0 ){
         $venta->actualizar();
         $msg["texto"] = "Actualizado correctamente";
         $mgs["codigo"] = "alert-success";
     } else{
         $venta->insertar();
-        $msg["texto"] = "insertado conrrectamente";
+        $msg["texto"] = "Insertado conrrectamente";
         $msg["codigo"] = "alert-success";
     } 
     
@@ -27,9 +28,9 @@ if($_POST) {
 }
 
 
-if(isset($_GET["id"]) && $_GET["id"] > 0){
-    $tipoProducto->cargarformulario($_REQUEST);
-    $tipoProducto->obtenerPorId();
+if (isset($_GET["id"]) && $_GET["id"] > 0) {
+    $tipoproducto->cargarFormulario($_REQUEST);
+    $tipoproducto->obtenerPorId();
 }
 
 $cliente = new Cliente();
