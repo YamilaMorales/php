@@ -6,6 +6,7 @@ include_once "entidades/venta.php";
 
 $venta = new Venta();
 
+
 if($_POST) {
     if(isset($_POST["btnGuardar"])){
         $venta->cargarFormulario($_REQUEST);
@@ -29,8 +30,8 @@ if($_POST) {
 
 
 if (isset($_GET["id"]) && $_GET["id"] > 0) {
-    $tipoproducto->cargarFormulario($_REQUEST);
-    $tipoproducto->obtenerPorId();
+    $tipoProducto->cargarFormulario($_REQUEST);
+    $tipoProducto->obtenerPorId();
 }
 
 $cliente = new Cliente();

@@ -10,7 +10,7 @@ include_once "entidades/localidad.php";
 $cliente = new Cliente();
 $cliente->cargarFormulario($_REQUEST);
 
-$pg = "Listado de clientes";
+
 
 if($_POST){
     if(isset($_POST["btnGuardar"])){
@@ -34,7 +34,7 @@ if($_POST){
             $cliente->eliminar();
             header("Location: cliente-listado.php");
         }
-} 
+} }
 
 if(isset($_GET["do"]) && $_GET["do"] == "buscarLocalidad" && $_GET["id"] && $_GET["id"] > 0){
     $idProvincia = $_GET["id"];
@@ -51,6 +51,8 @@ if(isset($_GET["id"]) && $_GET["id"] > 0){
 $provincia = new Provincia();
 $aProvincias = $provincia->obtenerTodos();
 
+
+$pg = "Listado de clientes";
 include_once("header.php"); 
 ?>
         <!-- Begin Page Content -->
@@ -190,6 +192,6 @@ $(document).ready( function () {
                 }
             });
         }
-
+    
 </script>
 <?php include_once("footer.php"); ?>
